@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skies - Weather</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="logo">Ski<span>es</span></div>
+    <div class="tagline">weather, beautifully told</div>
+  </header>
+
+  <div class="search-wrapper">
+    <div class="search-row">
+      <input type="text" id="city-input" placeholder="Type a city - Tokyo, Paris, Lagos..." autocomplete="off">
+      <button id="search-btn" onclick="fetchWeather()">Search</button>
+      <button id="clear-btn" type="button" onclick="clearWeather()">Clear</button>
+    </div>
+    <div id="error-msg">City not found. Try a different spelling.</div>
+  </div>
+
+  <div id="weather-card">
+    <div class="unit-toggle">
+      <button class="unit-btn active" id="btn-c" onclick="switchUnit('C')">°C</button>
+      <button class="unit-btn" id="btn-f" onclick="switchUnit('F')">°F</button>
+    </div>
+    <div class="card-main">
+      <div class="weather-icon" id="w-icon">⛅</div>
+      <div class="city-line">
+        <div>
+          <div class="city-name" id="w-city">-</div>
+          <div class="country" id="w-country">-</div>
+        </div>
+        <div class="local-time" id="w-time">-</div>
+      </div>
+      <div class="temp-row">
+        <div class="temp-big" id="w-temp">-</div>
+        <div class="temp-unit" id="w-unit">°C</div>
+      </div>
+      <div class="condition" id="w-condition">-</div>
+      <div class="sun-block">
+        <div class="sun-head">
+          <span>Sunrise <strong id="w-sunrise">-</strong></span>
+          <span>Sunset <strong id="w-sunset">-</strong></span>
+        </div>
+        <div class="sun-track">
+          <div class="sun-progress" id="w-day-progress"></div>
+        </div>
+        <div class="sun-meta" id="w-day-meta">-</div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-label">Feels like</div><div class="stat-value" id="w-feels">-</div></div>
+        <div class="stat"><div class="stat-label">Humidity</div><div class="stat-value" id="w-humidity">-</div></div>
+        <div class="stat"><div class="stat-label">Wind</div><div class="stat-value" id="w-wind">-</div></div>
+        <div class="stat"><div class="stat-label">UV Index</div><div class="stat-value" id="w-uv">-</div></div>
+      </div>
+    </div>
+    <div class="forecast-row" id="forecast-row"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
