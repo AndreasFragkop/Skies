@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skies - Weather</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
     <div class="logo">Ski<span>es</span></div>
     <div class="tagline">weather, beautifully told</div>
+  <div id="live-clock" class="live-clock">--:--:--</div>
   </header>
 
   <div class="search-wrapper">
@@ -18,9 +20,81 @@
       <input type="text" id="city-input" placeholder="Type a city - Tokyo, Paris, Lagos..." autocomplete="off">
       <button id="search-btn" onclick="fetchWeather()">Search</button>
       <button id="clear-btn" type="button" onclick="clearWeather()">Clear</button>
+      <button id="save-city-btn" type="button" onclick="saveCurrentCity()">Save</button>
+      <a class="nav-btn" href="favorites.html">Favorites</a>
     </div>
     <div id="error-msg">City not found. Try a different spelling.</div>
+    <div class="recent-wrap">
+      <div class="recent-title">Recent Searches</div>
+      <div id="recent-searches" class="recent-list"></div>
+    </div>
   </div>
+
+  <section id="quick-cities" class="quick-cities" aria-label="Popular cities">
+    <div class="quick-title">Popular Cities</div>
+    <div class="quick-grid">
+      <button class="quick-city" type="button" data-query="New York, United States" onclick="quickPick(this)">
+        <span class="quick-top">
+          <span class="quick-name">New York</span>
+          <span class="quick-icon">--</span>
+        </span>
+        <span class="quick-temp">--°</span>
+        <span class="quick-cond">Loading...</span>
+        <span class="quick-country">United States</span>
+        <div class="quick-mini-map" aria-label="New York mini map"></div>
+      </button>
+      <button class="quick-city" type="button" data-query="London, United Kingdom" onclick="quickPick(this)">
+        <span class="quick-top">
+          <span class="quick-name">London</span>
+          <span class="quick-icon">--</span>
+        </span>
+        <span class="quick-temp">--°</span>
+        <span class="quick-cond">Loading...</span>
+        <span class="quick-country">United Kingdom</span>
+        <div class="quick-mini-map" aria-label="London mini map"></div>
+      </button>
+      <button class="quick-city" type="button" data-query="Tokyo, Japan" onclick="quickPick(this)">
+        <span class="quick-top">
+          <span class="quick-name">Tokyo</span>
+          <span class="quick-icon">--</span>
+        </span>
+        <span class="quick-temp">--°</span>
+        <span class="quick-cond">Loading...</span>
+        <span class="quick-country">Japan</span>
+        <div class="quick-mini-map" aria-label="Tokyo mini map"></div>
+      </button>
+      <button class="quick-city" type="button" data-query="Paris, France" onclick="quickPick(this)">
+        <span class="quick-top">
+          <span class="quick-name">Paris</span>
+          <span class="quick-icon">--</span>
+        </span>
+        <span class="quick-temp">--°</span>
+        <span class="quick-cond">Loading...</span>
+        <span class="quick-country">France</span>
+        <div class="quick-mini-map" aria-label="Paris mini map"></div>
+      </button>
+      <button class="quick-city" type="button" data-query="Dubai, United Arab Emirates" onclick="quickPick(this)">
+        <span class="quick-top">
+          <span class="quick-name">Dubai</span>
+          <span class="quick-icon">--</span>
+        </span>
+        <span class="quick-temp">--°</span>
+        <span class="quick-cond">Loading...</span>
+        <span class="quick-country">UAE</span>
+        <div class="quick-mini-map" aria-label="Dubai mini map"></div>
+      </button>
+      <button class="quick-city" type="button" data-query="Sydney, Australia" onclick="quickPick(this)">
+        <span class="quick-top">
+          <span class="quick-name">Sydney</span>
+          <span class="quick-icon">--</span>
+        </span>
+        <span class="quick-temp">--°</span>
+        <span class="quick-cond">Loading...</span>
+        <span class="quick-country">Australia</span>
+        <div class="quick-mini-map" aria-label="Sydney mini map"></div>
+      </button>
+    </div>
+  </section>
 
   <div id="weather-card">
     <div class="unit-toggle">
@@ -58,9 +132,14 @@
         <div class="stat"><div class="stat-label">UV Index</div><div class="stat-value" id="w-uv">-</div></div>
       </div>
     </div>
+    <div class="map-wrap">
+      <div class="map-title">City map</div>
+      <div id="city-map" aria-label="City location map"></div>
+    </div>
     <div class="forecast-row" id="forecast-row"></div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
