@@ -1,56 +1,108 @@
 # Skies
 
-Modern weather web app with a cinematic sky-themed UI.
-
-## Overview
-
-Skies is a vanilla HTML/CSS/JavaScript weather app that:
-- searches cities using Open-Meteo geocoding
-- fetches current weather + 5-day forecast from Open-Meteo
-- supports Celsius and Fahrenheit toggle
-- shows condition icons mapped from WMO weather codes
-- includes sunrise/sunset times with daylight progress
-- includes a `Clear` button to reset the current view
-- includes a live clock in the header
-- includes popular city cards with quick weather snapshots
-- includes mini maps in each popular city card
-- includes a separate Favorites page
-- includes recent searches dropdown in the search area
+Skies is a modern weather web app with a cinematic sky-themed UI.
 
 ## Project Structure
 
-- `index.html`: markup and app layout
-- `styles.css`: full visual styling and animations
-- `script.js`: weather fetching, unit switching, URL/history sync, quick city snapshots, sunrise/sunset progress logic, and rendering
-- `favorites.html`: dedicated page for saved cities
-- `favorites.js`: favorites list rendering, open/remove/clear actions
+- `index.html`: main app UI
+- `styles.css`: app styles
+- `script.js`: app logic and event flow
+- `api.js`: API requests
+- `state.js`: shared state and storage helpers
+- `ui.js`: rendering and UI helpers
+- `utils.js`: utility functions
+- `favorites.html`: favorites page UI
+- `favorites.js`: favorites page logic
 
-## Run Locally
+## Run
 
-1. Open `index.html` directly in your browser
-2. Type a city name and press `Search` (or Enter)
-3. Use `Clear` to reset input and hide weather results
-4. Click `Save` to store current city in Favorites
-5. Click `Favorites` to open saved cities page
-6. Click a popular city card to open full detailed weather
+1. Start a local server from the project folder:
+   - `python3 -m http.server`
+2. Open:
+   - `http://localhost:8000/index.html`
 
-No build step or API key is required.
+## Requirements
 
-## Data Source
+- Modern browser with JavaScript enabled
+- Internet connection (for API calls and map tiles)
+- No build tools required
+- No API key required
 
-- Geocoding: `https://geocoding-api.open-meteo.com/v1/search`
-- Forecast: `https://api.open-meteo.com/v1/forecast`
+## Browser Support
+
+- Chrome (latest)
+- Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+
+## How to Use
+
+1. Enter a city name and click `Search` (or press Enter)
+2. View current weather, map, and 5-day forecast
+3. Use `Clear` to reset the view
+4. Use `Save` to store the current city
+5. Open `Favorites` to manage saved cities
+
+## How It Works
+
+- Geocodes city name via Open-Meteo geocoding API
+- Fetches weather data from Open-Meteo forecast API
+- Maps WMO weather codes to text/icon output
+- Renders weather details and forecast cards
+- Stores recent and saved cities in `localStorage`
+- Keeps URL synced using `?city=...`
+
+## APIs
+
+- Geocoding API (Open-Meteo):
+  - `https://geocoding-api.open-meteo.com/v1/search`
+  - Used to resolve city names to latitude/longitude
+- Forecast API (Open-Meteo):
+  - `https://api.open-meteo.com/v1/forecast`
+  - Used for current conditions, daily forecast, sunrise/sunset, and UV index
+- Key query params used by the app:
+  - `timezone=auto`, `forecast_days=5`, `timeformat=unixtime`
+
+## Features
+
+- City search with fallback handling
+- Current conditions + 5-day forecast
+- Celsius/Fahrenheit toggle
+- Sunrise/sunset + daylight progress
+- Recent searches panel
+- Popular city quick cards
+- Favorites page
+- Inline city map with Leaflet
+- Live clock in header
+
+## Limitations
+
+- Depends on third-party APIs and map tiles
+- Needs network access for live data
+- City name ambiguity can return unexpected locations
+- No offline mode
+
+## Privacy
+
+- No backend is used
+- Data is fetched directly from client to third-party APIs
+- Saved and recent cities are stored only in local browser storage
+
+## Roadmap
+
+- Hourly forecast support
+- Better error-state messaging
+- Smarter caching for repeated queries
+- Accessibility pass and keyboard improvements
+
+## Detectable Languages
+
+- English city names are reliably supported
+- International names supported via API geocoding
+- Input matching quality depends on Open-Meteo geocoding results
 
 ## Notes
 
-- Uses `timeformat=unixtime` from Open-Meteo for timezone-safe sunrise/sunset progress calculations across countries.
-- Daylight bar behavior:
-  - before sunrise: near empty (`Before sunrise`)
-  - between sunrise and sunset: proportional progress
-  - after sunset: full (`After sunset`)
-- URL sync:
-  - successful searches update URL with `?city=...`
-  - browser back/forward restores city/start-state views
-- Recent searches:
-  - appears when search input is focused
-  - clicking a recent item reopens that city quickly
+- Data source: Open-Meteo APIs
+- Mapping: Leaflet + Carto tile layer
+- Daylight calculations use `timeformat=unixtime` for timezone consistency
