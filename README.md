@@ -2,6 +2,9 @@
 
 Skies is a modern weather web app with a cinematic sky-themed UI.
 
+![Skies Weather Preview](images/Skies-Weather.png)
+![Skies Weather Display](images/Skies-Weather-Showed.png)
+
 ## Project Structure
 
 - `index.html`: main app UI
