@@ -7,22 +7,33 @@ Skies is a modern weather web app with a cinematic sky-themed UI.
 
 ## Project Structure
 
-- `index.html`: main app UI
-- `styles.css`: app styles
-- `script.js`: app logic and event flow
-- `api.js`: API requests
-- `state.js`: shared state and storage helpers
-- `ui.js`: rendering and UI helpers
-- `utils.js`: utility functions
-- `favorites.html`: favorites page UI
-- `favorites.js`: favorites page logic
+```text
+Skies/
+├── index.html       # Main app UI
+├── styles.css       # App styles
+├── script.js        # App logic and event flow
+├── api.js           # API requests
+├── state.js         # Shared state and storage helpers
+├── ui.js            # Rendering and UI helpers
+├── utils.js         # Utility functions
+├── favorites.html   # Favorites page UI
+├── favorites.js     # Favorites page logic
+└── images/
+    ├── Skies-Weather.png
+    └── Skies-Weather-Showed.png
+```
 
 ## Run
 
-1. Start a local server from the project folder:
-   - `python3 -m http.server`
-2. Open:
-   - `http://localhost:8000/index.html`
+1. Quick start:
+```bash
+open index.html
+```
+2. Local server option:
+```bash
+python3 -m http.server 8000
+```
+Then open `http://localhost:8000`.
 
 ## Requirements
 
