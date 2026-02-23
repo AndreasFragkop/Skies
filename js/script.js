@@ -15,10 +15,12 @@ import {
   updateMap,
 } from './ui.js';
 
+// Helpers bound to current state; passed into render layer.
 const display = (c) => displayTemp(c, state.currentUnit);
 const unit = () => unitLabel(state.currentUnit);
 const DEFAULT_ERROR_TEXT = 'City not found. Try a different spelling.';
 
+// Keep a short recent-search list, newest first, de-duplicated by query.
 function pushRecentSearch(city, country) {
   const query = [city, country].filter(Boolean).join(', ');
   const label = city;
@@ -29,9 +31,11 @@ function pushRecentSearch(city, country) {
   renderRecentSearches(items, quickPick);
 }
 
+// Keep selected city in URL for shareability/back-forward navigation.
 function setCityInUrl(cityQuery, mode = 'push') {
   const url = new URL(window.location.href);
   const currentCity = url.searchParams.get('city') || '';
+
   if (!cityQuery) {
     if (!currentCity) return;
     url.searchParams.delete('city');
@@ -47,6 +51,7 @@ function setCityInUrl(cityQuery, mode = 'push') {
   }
 }
 
+// Save currently rendered city to favorites.
 function saveCurrentCity() {
   if (!state.rawData) return;
   const countryOnly = (state.rawData.country || '').split(',').pop()?.trim() || '';
@@ -59,18 +64,21 @@ function saveCurrentCity() {
   setSavedCities(savedCities.slice(0, 8));
 }
 
+// Centralized message setter to avoid repeated null checks.
 function setErrorMessage(message) {
   const errorEl = document.getElementById('error-msg');
   if (!errorEl) return;
   errorEl.textContent = message;
 }
 
+// Fetch weather, normalize payload, store global rawData, and re-render UI + map.
 async function renderWeatherForLocation(latitude, longitude, geoMeta) {
   const weather = await fetchForecastByCoords(latitude, longitude);
   const cur = weather.current;
   const daily = weather.daily;
   const [condition, icon] = wmoInfo(cur.weather_code);
 
+  // Build forecast rows from daily arrays by shared index.
   const forecast = daily.time.map((dayUnix, i) => {
     const dayDate = new Date(dayUnix * 1000);
     const [, forecastIcon] = wmoInfo(daily.weather_code?.[i]);
@@ -87,6 +95,7 @@ async function renderWeatherForLocation(latitude, longitude, geoMeta) {
   const admin1 = geoMeta?.admin1 || '';
   const locationLabel = [admin1, country].filter(Boolean).join(', ') || 'Current position';
 
+  // Store canonical data in Celsius; conversion happens only at display time.
   state.rawData = {
     city: resolvedName,
     country: locationLabel,
@@ -109,6 +118,7 @@ async function renderWeatherForLocation(latitude, longitude, geoMeta) {
   return { resolvedName, country };
 }
 
+// Switch C/F unit and re-render existing data.
 function switchUnit(nextUnit) {
   state.currentUnit = nextUnit;
   setUnitButtons(nextUnit);
@@ -117,12 +127,15 @@ function switchUnit(nextUnit) {
   }
 }
 
+// Search by city input and render full weather card.
 async function fetchWeather(syncUrl = true) {
   const city = dom.cityInput?.value.trim();
   if (!city || !dom.searchBtn) return;
+
   toggleRecentPanel(false, dom.searchWrapperEl);
   dom.cityInput?.blur();
 
+  // Temporary loading state for search controls.
   dom.searchBtn.textContent = '...';
   dom.searchBtn.disabled = true;
   if (dom.cityInput) dom.cityInput.disabled = true;
@@ -145,6 +158,7 @@ async function fetchWeather(syncUrl = true) {
   }
 }
 
+// Reset page to initial quick-cities state.
 function clearWeather(skipUrlReset = false) {
   if (dom.cityInput) dom.cityInput.value = '';
   showStartState(dom.quickCitiesEl);
@@ -152,6 +166,7 @@ function clearWeather(skipUrlReset = false) {
   if (!skipUrlReset) setCityInUrl('', 'push');
 }
 
+// Handle quick-city card and recent-search chip clicks.
 function quickPick(citySource) {
   const cityQuery = typeof citySource === 'string' ? citySource : citySource?.dataset?.query || '';
   if (!cityQuery || !dom.cityInput) return;
@@ -160,14 +175,19 @@ function quickPick(citySource) {
   fetchWeather();
 }
 
+// Bind all interaction + navigation listeners.
 function bindEvents() {
   if (!dom.cityInput) return;
+
   dom.cityInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') fetchWeather();
   });
+
   dom.cityInput.addEventListener('focus', () => {
     toggleRecentPanel(true, dom.searchWrapperEl);
   });
+
+  // Delay blur handling so click events inside recent panel can fire first.
   dom.cityInput.addEventListener('blur', () => {
     setTimeout(() => {
       const active = document.activeElement;
@@ -176,9 +196,12 @@ function bindEvents() {
     }, 80);
   });
 
+  // Keep recent panel aligned with input when layout changes.
   window.addEventListener('resize', () => {
     alignRecentPanelToInput(dom.recentWrapEl, dom.searchWrapperEl, dom.cityInput);
   });
+
+  // Re-hydrate view when browser history changes.
   window.addEventListener('popstate', () => {
     const cityFromUrl = new URLSearchParams(window.location.search).get('city');
     if (cityFromUrl && dom.cityInput) {
@@ -190,6 +213,7 @@ function bindEvents() {
   });
 }
 
+// Bootstraps the application once module script is loaded.
 function init() {
   setUnitButtons(state.currentUnit);
   startLiveClock();
@@ -198,6 +222,7 @@ function init() {
   hydrateQuickCities(fetchQuickCitySnapshot, unit, state);
   bindEvents();
 
+  // Support deep-link startup: index.html?city=Paris,%20France
   const startupCity = new URLSearchParams(window.location.search).get('city');
   if (startupCity && dom.cityInput) {
     dom.cityInput.value = startupCity;
@@ -205,6 +230,7 @@ function init() {
   }
 }
 
+// Expose selected handlers for inline onclick attributes in HTML.
 window.fetchWeather = fetchWeather;
 window.clearWeather = clearWeather;
 window.saveCurrentCity = saveCurrentCity;

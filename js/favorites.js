@@ -1,7 +1,9 @@
+// Favorites page uses the same storage key as the main weather page.
 const SAVED_CITIES_KEY = 'skies_saved_cities_v1';
 const listEl = document.getElementById('fav-list');
 const clearAllBtn = document.getElementById('clear-all');
 
+// Parse persisted favorites safely.
 function getSavedCities() {
   try {
     const parsed = JSON.parse(localStorage.getItem(SAVED_CITIES_KEY) || '[]');
@@ -11,10 +13,12 @@ function getSavedCities() {
   }
 }
 
+// Persist favorites array.
 function setSavedCities(items) {
   localStorage.setItem(SAVED_CITIES_KEY, JSON.stringify(items));
 }
 
+// Render all favorite city cards with Open + Remove actions.
 function render() {
   const cities = getSavedCities();
   listEl.innerHTML = '';
@@ -36,6 +40,8 @@ function render() {
         <button class="btn remove" type="button">Remove</button>
       </div>
     `;
+
+    // Remove uses case-insensitive query matching so duplicates are handled consistently.
     card.querySelector('.remove').addEventListener('click', () => {
       const next = getSavedCities().filter((c) => c.query.toLowerCase() !== city.query.toLowerCase());
       setSavedCities(next);
@@ -45,6 +51,7 @@ function render() {
   });
 }
 
+// Clear all favorites in one action.
 clearAllBtn.addEventListener('click', () => {
   setSavedCities([]);
   render();

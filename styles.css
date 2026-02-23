@@ -1,5 +1,7 @@
+/* Global reset to normalize spacing/box model across elements. */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Design tokens used across the weather experience. */
 :root {
   --sky: #060b17;
   --card: rgba(12, 20, 38, 0.62);
@@ -13,6 +15,7 @@
   --shadow: 0 24px 80px rgba(3, 8, 20, 0.5);
 }
 
+/* Full-page layout shell: fixed-height app style with centered content column. */
 body {
   background: var(--sky);
   color: var(--text);
@@ -28,6 +31,7 @@ body {
   overflow-y: hidden;
 }
 
+/* Layered atmospheric gradients behind all UI content. */
 body::before {
   content: '';
   position: fixed;
@@ -39,6 +43,7 @@ body::before {
   z-index: -1;
 }
 
+/* Subtle star-like particle pattern with breathing animation. */
 body::after {
   content: '';
   position: fixed;
@@ -53,6 +58,7 @@ body::after {
 
 @keyframes twinkle { from { opacity: 0.7; } to { opacity: 1; } }
 
+/* Header block (logo, tagline, clock). */
 header {
   text-align: center;
   margin-bottom: 14px;
@@ -89,6 +95,7 @@ header {
   color: var(--accent);
 }
 
+/* Search area wrapper and quick-cities container shell. */
 .search-wrapper {
   width: 100%;
   max-width: 1120px;
@@ -119,6 +126,7 @@ header {
   margin-bottom: 10px;
 }
 
+/* Quick-city grid shown before searching. */
 .quick-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -196,6 +204,7 @@ header {
   margin-bottom: 0;
 }
 
+/* Embedded preview maps inside quick-city cards. */
 .quick-mini-map {
   width: 100%;
   height: 170px;
@@ -206,6 +215,7 @@ header {
   overflow: hidden;
 }
 
+/* Search row controls and button/input variants. */
 .search-row {
   display: flex;
   gap: 10px;
@@ -311,6 +321,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   box-shadow: none;
 }
 
+/* Search validation/error message area. */
 #error-msg {
   color: #f87171;
   font-size: 12px;
@@ -319,6 +330,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   display: none;
 }
 
+/* Recent-search dropdown panel attached to search input. */
 .recent-wrap {
   position: absolute;
   top: calc(100% + 1px);
@@ -377,7 +389,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   color: var(--muted);
 }
 
-
+/* Main weather result container; hidden until renderData() shows it. */
 #weather-card {
   width: 100%;
   max-width: 1120px;
@@ -389,6 +401,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   gap: 8px;
 }
 
+/* Map section on the result card. */
 .map-wrap {
   background: rgba(12, 20, 38, 0.58);
   border: 1px solid var(--border);
@@ -423,6 +436,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* C/F switch controls in the weather card header. */
 .unit-toggle {
   display: flex;
   gap: 8px;
@@ -446,6 +460,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   background: rgba(109, 211, 255, 0.16);
 }
 
+/* Primary weather summary panel. */
 .card-main {
   background: linear-gradient(180deg, var(--card-strong) 0%, var(--card) 100%);
   border: 1px solid var(--border);
@@ -506,6 +521,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   margin-bottom: 10px;
 }
 
+/* Sunrise/sunset strip and progress bar visuals. */
 .sun-block {
   margin-bottom: 12px;
   padding: 10px 12px;
@@ -550,6 +566,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   color: var(--muted);
 }
 
+/* Floating weather icon accent in top-right of card. */
 .weather-icon {
   font-size: 3.5rem;
   font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
@@ -565,6 +582,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   50% { transform: translateY(-8px); }
 }
 
+/* Supporting metrics and forecast card grids. */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -613,6 +631,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .fc-high { font-size: 0.95rem; color: var(--accent); }
 .fc-low { font-size: 0.8rem; color: var(--muted); }
 
+/* Height-focused compact layout adjustments. */
 @media (max-height: 860px) {
   .logo { font-size: clamp(2.2rem, 5vw, 3.2rem); margin-bottom: 4px; }
   .tagline { font-size: 10px; }
@@ -621,6 +640,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   .weather-icon { font-size: 2.6rem; top: 68px; right: 20px; }
 }
 
+/* Width-based responsive behaviors for tablet/mobile. */
 @media (max-width: 720px) {
   .quick-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

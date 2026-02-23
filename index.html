@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Core document metadata -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skies - Weather</title>
+
+  <!-- Typography and map library styles -->
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Branding + live clock -->
   <header>
     <div class="logo">Ski<span>es</span></div>
     <div class="tagline">weather, beautifully told</div>
     <div id="live-clock" class="live-clock">--:--:--</div>
   </header>
 
+  <!-- Search controls + validation/error + recent search dropdown -->
   <div class="search-wrapper">
     <div class="search-row">
       <input type="text" id="city-input" placeholder="Type a city - Tokyo, Paris, Lagos..." autocomplete="off">
@@ -30,6 +35,7 @@
     </div>
   </div>
 
+  <!-- Start-screen quick city cards (loaded with mini weather snapshots) -->
   <section id="quick-cities" class="quick-cities" aria-label="Popular cities">
     <div class="quick-title">Popular Cities</div>
     <div class="quick-grid">
@@ -96,11 +102,13 @@
     </div>
   </section>
 
+  <!-- Main weather result panel (hidden until a search succeeds) -->
   <div id="weather-card">
     <div class="unit-toggle">
       <button class="unit-btn active" id="btn-c" onclick="switchUnit('C')">°C</button>
       <button class="unit-btn" id="btn-f" onclick="switchUnit('F')">°F</button>
     </div>
+
     <div class="card-main">
       <div class="weather-icon" id="w-icon">⛅</div>
       <div class="city-line">
@@ -110,11 +118,15 @@
         </div>
         <div class="local-time" id="w-time">-</div>
       </div>
+
       <div class="temp-row">
         <div class="temp-big" id="w-temp">-</div>
         <div class="temp-unit" id="w-unit">°C</div>
       </div>
+
       <div class="condition" id="w-condition">-</div>
+
+      <!-- Sunrise/sunset panel with daylight progress indicator -->
       <div class="sun-block">
         <div class="sun-head">
           <span>Sunrise <strong id="w-sunrise">-</strong></span>
@@ -125,6 +137,8 @@
         </div>
         <div class="sun-meta" id="w-day-meta">-</div>
       </div>
+
+      <!-- Current-condition supporting metrics -->
       <div class="stats-grid">
         <div class="stat"><div class="stat-label">Feels like</div><div class="stat-value" id="w-feels">-</div></div>
         <div class="stat"><div class="stat-label">Humidity</div><div class="stat-value" id="w-humidity">-</div></div>
@@ -132,14 +146,19 @@
         <div class="stat"><div class="stat-label">UV Index</div><div class="stat-value" id="w-uv">-</div></div>
       </div>
     </div>
+
+    <!-- Interactive city map -->
     <div class="map-wrap">
       <div class="map-title">City map</div>
       <div id="city-map" aria-label="City location map"></div>
     </div>
+
+    <!-- 5-day forecast cards -->
     <div class="forecast-row" id="forecast-row"></div>
   </div>
 
+  <!-- Runtime libraries and app entrypoint -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="script.js"></script>
+  <script type="module" src="js/script.js"></script>
 </body>
 </html>
