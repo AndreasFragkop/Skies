@@ -35,20 +35,6 @@ python3 -m http.server 8000
 ```
 Then open `http://localhost:8000`.
 
-## Requirements
-
-- Modern browser with JavaScript enabled
-- Internet connection (for API calls and map tiles)
-- No build tools required
-- No API key required
-
-## Browser Support
-
-- Chrome (latest)
-- Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-
 ## How to Use
 
 1. Enter a city name and click `Search` (or press Enter)
@@ -89,13 +75,6 @@ Then open `http://localhost:8000`.
 - Inline city map with Leaflet
 - Live clock in header
 
-## Limitations
-
-- Depends on third-party APIs and map tiles
-- Needs network access for live data
-- City name ambiguity can return unexpected locations
-- No offline mode
-
 ## Privacy
 
 - No backend is used
@@ -108,12 +87,6 @@ Then open `http://localhost:8000`.
 - Better error-state messaging
 - Smarter caching for repeated queries
 - Accessibility pass and keyboard improvements
-
-## Detectable Languages
-
-- English city names are reliably supported
-- International names supported via API geocoding
-- Input matching quality depends on Open-Meteo geocoding results
 
 ## Notes
 
